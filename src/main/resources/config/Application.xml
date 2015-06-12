@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop.xsd
+       ">
+
+    <!--配置扫描注解-->
+    <context:component-scan
+            base-package="edu.sust.dao.Impl,edu.sust.service.Impl,edu.sust.struts2.action"></context:component-scan>
+    <!--配置数据源-->
+    <context:property-placeholder location="classpath*:property/jdbc.properties"></context:property-placeholder>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverclass}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxPoolSize" value="${c3p0.pool.size.max}"/>
+        <property name="minPoolSize" value="${c3p0.pool.size.min}"/>
+        <property name="initialPoolSize" value="${c3p0.pool.size.init}"/>
+        <property name="acquireIncrement" value="${c3p0.pool.size.increment}"/>
+    </bean>
+
+    <!--本地会话工厂bean(spring整合hibernate核心入口)-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:config/hibernate.cfg.xml"/>
+    <!--<property name="mappingLocations" value="classpath*:edu/sust/po/User.hbm.xml"></property>-->
+        <property name="mappingDirectoryLocations">
+            <list>
+                <!--这个配置替代了hibernate的mapping配置-->
+                <value>classpath:edu/sust/po</value>
+            </list>
+        </property>
+
+    </bean>
+    <!--配置hibernate事务管理器,用来在service层面上实现事务管理，达到平台无关性-->
+    <bean name="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <!--注入sessionfactory-->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <tx:advice id="advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--propagation传播行为 配置事务属性 isolation隔离级别-->
+            <!--写操作-->
+            <tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT"></tx:method>
+            <tx:method name="update*" propagation="REQUIRED" isolation="DEFAULT"></tx:method>
+            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT"></tx:method>
+            <tx:method name="batch*" propagation="REQUIRED" isolation="DEFAULT"></tx:method>
+            <!--读操作-->
+            <tx:method name="load*" propagation="REQUIRED" isolation="DEFAULT" read-only="true"></tx:method>
+            <tx:method name="get*" propagation="REQUIRED" isolation="DEFAULT" read-only="true"></tx:method>
+            <tx:method name="get*" propagation="REQUIRED" isolation="DEFAULT" read-only="true"></tx:method>
+            <!--此行防止不是以上开头的事务，所以统配所有-->
+            <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+    <!--aop配置-->
+    <aop:config>
+        <!--* *..*Service.*(..)表示任何返回值类型  任何包及子包（第二个点是包和类的分隔）下的任何以Service结尾的接口的任何方法里的任何参数--> <!--切入点表示-->
+        <aop:advisor advice-ref="advice" pointcut="execution(* *..*Service.*(..))"></aop:advisor>
+    </aop:config>
+</beans>

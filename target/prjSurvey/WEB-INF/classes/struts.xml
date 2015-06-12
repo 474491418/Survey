@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!--设置为开发模式-->
+    <constant name="struts.devMode" value="true"/>
+    <!--设置主题为simple-->
+    <constant name="struts.ui.theme" value="simple"/>
+
+    <package name="root" extends="struts-default" namespace="/reg">
+        <action name="RegAction_*" class="edu.sust.struts2.action.RegAction" method="{1}">
+            <result name="regPage">reg.jsp</result>
+        </action>
+
+    </package>
+
+
+    <package name="ajaxfirst" extends="json-default" namespace="/ajax">
+        <action name="RegAction_isUserReg" class="edu.sust.struts2.action.RegAction" method="isUserReg">
+            <result type="json" name="success">
+                <param name="root">dataMap</param>
+            </result>
+
+        </action>
+    </package>
+</struts>

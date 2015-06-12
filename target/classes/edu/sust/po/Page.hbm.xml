@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="edu.sust.po.Page" table="pages">
+        <id name="id" column="page_id">
+            <generator class="native"/>
+        </id>
+        <property name="title" column="page_title" type="java.lang.String"></property>
+        <property name="description" column="page_description" type="java.lang.String"></property>
+        <many-to-one name="survey" class="edu.sust.po.Survey" column="survey_id"></many-to-one>
+
+       <!--一对多关系-->
+        <set name="questions" inverse="true">
+            <key column="page_id"></key>
+            <one-to-many class="edu.sust.po.Question"></one-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

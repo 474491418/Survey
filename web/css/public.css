@@ -1,0 +1,52 @@
+body {
+    padding-top: 52px;
+    font-size: 18px;
+    font-family: '微软雅黑';
+
+}
+.modal-dialog{
+    margin-top: 50px;
+}
+.modal{
+    z-index: 9999;
+}
+.badge-danger {
+    background-color: #CC0000;
+}
+
+#header ul li a {
+    font-size: 20px;
+}
+
+.btn-success {
+    background: #66CC99;
+}
+
+#nav1 li {
+    padding-right: 20px;
+}
+
+#bigImg {
+    background: #202021 url("../resource/pic/3.png") center repeat;
+}
+.dropdown-toggle:after{
+
+}
+.dropdown-menu{
+
+    z-index: 9999;
+}
+#bigImg h1 {
+    color: #ffffff;
+}
+
+#header{
+    background:#999999;
+}
+#bigImg p {
+    color: #ffffff;
+    font-weight: 500;
+}
+#header_reg{
+    padding-right: 15px;
+}
