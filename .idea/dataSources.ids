@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="MySQL - @localhost" uuid="2344d73b-135c-428c-8234-7871a82206d7">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+    <database-info product="MySQL" version="5.6.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="prj_surveypark"/>
+    <table name="pages" schema="" catalog="prj_surveypark" type="TABLE">
+      <column name="page_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="page_title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="page_description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="survey_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="page_id"/>
+      <foreign-key name="FK657EFC47B027B6" columns="survey_id" ref-table="surveys" ref-schema="" ref-catalog="prj_surveypark" ref-columns="survey_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK95C5414D9B02DB3D" table="questions" schema="" catalog="prj_surveypark" columns="question_page_id"/>
+      <exported-key name="FK95C5414DFAE03E96" table="questions" schema="" catalog="prj_surveypark" columns="page_id"/>
+      <index name="FK657EFC47B027B6" unique="false" columns="survey_id"/>
+    </table>
+    <table name="questions" schema="" catalog="prj_surveypark" type="TABLE">
+      <column name="question_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="question_title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="question_type" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="question_other_type" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="question_other_Select_Options" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="question_other" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="question_options" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="question_matrix_Select_Options" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="question_matrix_Row_Titles" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="question_matrix_Col_Titles" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="question_page_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="page_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="question_id"/>
+      <foreign-key name="FK95C5414D9B02DB3D" columns="question_page_id" ref-table="pages" ref-schema="" ref-catalog="prj_surveypark" ref-columns="page_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK95C5414DFAE03E96" columns="page_id" ref-table="pages" ref-schema="" ref-catalog="prj_surveypark" ref-columns="page_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK95C5414D9B02DB3D" unique="false" columns="question_page_id"/>
+      <index name="FK95C5414DFAE03E96" unique="false" columns="page_id"/>
+    </table>
+    <table name="surveys" schema="" catalog="prj_surveypark" type="TABLE">
+      <column name="survey_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="survey_title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="survey_create_date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="survey_pre_text" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="survey_next_text" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="survey_done_text" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="survey_exit_text" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="survey_id"/>
+      <foreign-key name="FKF4C9DC392202E516" columns="user_id" ref-table="user" ref-schema="" ref-catalog="prj_surveypark" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK657EFC47B027B6" table="pages" schema="" catalog="prj_surveypark" columns="survey_id"/>
+      <index name="FKF4C9DC392202E516" unique="false" columns="user_id"/>
+    </table>
+    <table name="user" schema="" catalog="prj_surveypark" type="TABLE">
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_email" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_nickname" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="user_id"/>
+      <exported-key name="FKF4C9DC392202E516" table="surveys" schema="" catalog="prj_surveypark" columns="user_id"/>
+    </table>
   </data-source>
 </component>
